@@ -1,0 +1,10 @@
+<a href="{% url 'department_detail' department.id %}">
+	<p>Leader: {{ department.leader }}</p>
+
+	<h3>Teams</h3>
+	<ul>
+		{% for team in teams %}
+		<li>{{ team.name }} ({{ team.team_type }})</li>
+		{% endfor %}
+	</ul>
+</a>

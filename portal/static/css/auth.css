@@ -1,0 +1,213 @@
+:root {
+	--primary-purple: #7c3aed;
+	--border-gray: #e5e7eb;
+	--text-gray: #6b7280;
+	--bg-dark: #18181b;
+	--bg-image: url("{% static 'images/login.jpg' %}");
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background-color: var(--bg-dark);
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Main Container */
+.auth-container {
+	display: flex;
+	width: 90%;
+	max-width: 1000px;
+	height: 650px; /* Fixed height stops the "jumping" */
+	background: white;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Left Side Image */
+.image-section {
+	flex: 1.5;
+	/* Use the variable defined in the HTML */
+	background-image: var(--bg-image);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	/* Optional: adds a slight tint to match the UI better */
+	position: relative;
+}
+
+.image-section::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.1);
+}
+
+/* Right Side Form Section */
+.form-section {
+	flex: 1;
+	min-width: 400px; /* Fixed width stops the horizontal shifting */
+	padding: 40px;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+/* Tab Navigation */
+.tabs-container {
+	position: relative;
+	display: flex;
+	margin-bottom: 40px;
+	border-bottom: 2px solid var(--border-gray);
+}
+
+.tab-btn {
+	flex: 1;
+	background: none;
+	border: none;
+	padding: 15px 0;
+	color: #9ca3af;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 12px;
+	text-transform: uppercase;
+	transition: color 0.3s;
+	z-index: 2;
+}
+
+.tab-btn.active {
+	color: black;
+}
+
+/* The Sliding Purple Bar */
+.tab-indicator {
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	height: 3px;
+	width: 50%;
+	background-color: var(--primary-purple);
+	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	z-index: 3;
+}
+
+.logo-container {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.logo-container img {
+	height: 40px;
+}
+
+/* Form Wrapper - Keeps everything aligned */
+.forms-wrapper {
+	position: relative;
+	flex-grow: 1;
+}
+
+.auth-form {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	transition:
+		opacity 0.3s ease,
+		visibility 0.3s;
+}
+
+/* Transition States */
+.auth-form.hidden {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+/* Form Elements */
+.name-row {
+	display: flex;
+	gap: 12px;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+label {
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--text-gray);
+	margin-bottom: 6px;
+}
+
+.required {
+	color: #ef4444;
+	margin-left: 2px;
+}
+
+input {
+	padding: 10px;
+	border: 1px solid var(--border-gray);
+	border-radius: 4px;
+	font-size: 14px;
+	outline: none;
+	transition: border-color 0.2s;
+}
+
+input:focus {
+	border-color: var(--primary-purple);
+}
+
+.submit-btn {
+	background-color: var(--primary-purple);
+	color: white;
+	padding: 14px;
+	border: none;
+	border-radius: 6px;
+	font-weight: bold;
+	cursor: pointer;
+	margin-top: 10px;
+	transition: background 0.2s;
+}
+
+.submit-btn:hover {
+	background-color: #6d28d9;
+}
+
+.help-link {
+	text-align: center;
+	font-size: 11px;
+	color: #3b82f6;
+	text-decoration: none;
+	margin-top: 15px;
+}
+
+footer {
+	margin-top: auto;
+	text-align: center;
+	font-size: 10px;
+	color: #9ca3af;
+	padding-top: 20px;
+}
+
+/* Logic for the slider position */
+.show-login-state .tab-indicator {
+	transform: translateX(100%);
+}

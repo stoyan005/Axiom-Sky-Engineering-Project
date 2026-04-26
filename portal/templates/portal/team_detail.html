@@ -1,0 +1,10 @@
+<li>
+	<a href="{% url 'team_detail' team.id %}"> {{ team.name }} </a>
+	<ul>
+		{% for dep in team.dependencies.all %}
+		<li>Depends on: {{ dep.name }}</li>
+		{% empty %}
+		<li>No dependencies</li>
+		{% endfor %}
+	</ul>
+</li>
