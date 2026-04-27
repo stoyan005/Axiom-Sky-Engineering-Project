@@ -1,0 +1,49 @@
+body {
+	font-family: Arial, sans-serif;
+	background: #f4f6f9;
+	margin: 0;
+	padding: 20px;
+}
+
+h1 {
+	color: #2c3e50;
+}
+
+h2 {
+	color: #34495e;
+	margin-top: 30px;
+}
+
+div {
+	background: white;
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 6px;
+	border-left: 4px solid #3498db;
+}
+
+a {
+	color: #2980b9;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+form input {
+	padding: 8px;
+	width: 200px;
+}
+
+form button {
+	padding: 8px 12px;
+	background: #3498db;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+form button:hover {
+	background: #2980b9;
+}

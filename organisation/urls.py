@@ -1,7 +1,6 @@
 from django.urls import path
-from . import organisation
+from . import views
 
-#Define a list of url patterns
 urlpatterns = [
-    path('', organisation.index)
+    path('', views.organisation_view, name='organisation'),
 ]

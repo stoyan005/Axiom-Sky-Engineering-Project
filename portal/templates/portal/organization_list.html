@@ -1,13 +1,38 @@
-<h1>{{ org.name }}</h1>
+{% load static %}
+<link rel="stylesheet" href="{% static 'portal/styles.css' %}">
+<h1>Organisation Overview</h1>
+
+<form method="GET">
+	<input type="text" name="q" placeholder="Search teams">
+	<button type="submit">Search</button>
+</form>
 
 <h2>Departments</h2>
 
-<ul>
-	{% for dept in departments %}
-	<li>
-		<a href="{% url 'department_detail' dept.id %}"> {{ dept.name }} </a>
-	</li>
-	{% empty %}
-	<li>No departments</li>
-	{% endfor %}
-</ul>
+{% for org in orgs %}
+{% for dept in org.department_set.all %}
+<p>
+	<a href="/departments/{{ dept.id }}/">{{ dept.name }}</a>
+</p>
+{% endfor %}
+{% endfor %}
+
+<h2>Teams + Dependencies</h2>
+
+{% for team in teams %}
+<div>
+	<p>
+		<a href="/teams/{{ team.id }}/">{{ team.name }}</a>
+		({{ team.department.name }})
+	</p>
+
+	<p>
+		Depends on:
+		{% for dep in team.dependencies.all %}
+		{{ dep.name }}
+		{% empty %}
+		None
+		{% endfor %}
+	</p>
+</div>
+{% endfor %}
