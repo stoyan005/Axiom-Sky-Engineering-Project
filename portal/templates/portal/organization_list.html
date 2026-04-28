@@ -1,51 +1,74 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/team.css' %}">
+<!DOCTYPE html>
+<html lang="en">
 
-<h1>Organisation Overview</h1>
+<head>
+	<meta charset="UTF-8">
+	<title>Organisation Overview</title>
+	<link rel="stylesheet" href="{% static 'css/organ_list.css' %}">
+</head>
 
-<form method="GET">
-	<input type="text" name="q" placeholder="Search orgs, teams, departments">
-	<button type="submit">Search</button>
-</form>
+<body>
 
-<h2>Organisations</h2>
+	<h1 style="text-align: center; color: #1e293b; margin-top: 20px;">Organisation Overview</h1>
 
-{% for org in orgs %}
-<p>
-	<a href="/organizations/{{ org.id }}/">{{ org.name }}</a>
-</p>
-{% empty %}
-<p>No organisations found</p>
-{% endfor %}
+	<div class="search-container">
+		<form method="GET" class="search-bar">
+			<input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search teams or departments...">
+			<button type="submit">Search</button>
+		</form>
+	</div>
 
-<h2>Departments</h2>
+	<hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 50px;">
 
-{% for dept in departments %}
-<p>
-	<a href="/departments/{{ dept.id }}/">{{ dept.name }}</a>
-</p>
-{% empty %}
-<p>No departments found</p>
-{% endfor %}
+	{% for org in orgs %}
+	<div class="org">
 
-<h2>Teams + Dependencies</h2>
+		<h2 class="org-title">🏢 {{ org.name }}</h2>
 
-{% for team in teams %}
-<div>
-	<p>
-		<a href="/teams/{{ team.id }}/">{{ team.name }}</a>
-		({{ team.department.name }})
-	</p>
+		<div class="tree">
 
-	<p>
-		Depends on:
-		{% for dep in team.dependencies.all %}
-		{{ dep.name }}
-		{% empty %}
-		None
-		{% endfor %}
-	</p>
-</div>
-{% empty %}
-<p>No teams found</p>
-{% endfor %}
+			<div class="level root">
+				<div class="node root-node">{{ org.name }}</div>
+			</div>
+
+			<div class="level departments">
+
+				{% for dept in org.department_set.all %}
+				<div class="branch">
+
+					<div class="node dept-node">📁 {{ dept.name }}</div>
+
+					<div class="children">
+
+						{% for team in dept.team_set.all %}
+						<div class="branch">
+
+							<div class="node team-node">👥 {{ team.name }}</div>
+
+							<div class="children">
+								{% for dep in team.dependencies.all %}
+								<div class="branch">
+									<div class="node dep-node">🔗 {{ dep.name }}</div>
+								</div>
+								{% endfor %}
+							</div>
+
+						</div>
+						{% endfor %}
+
+					</div>
+
+				</div>
+				{% endfor %}
+
+			</div>
+
+		</div>
+
+	</div>
+	{% endfor %}
+
+</body>
+
+</html>
