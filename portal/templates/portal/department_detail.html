@@ -1,5 +1,6 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'portal/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/team.css' %}">
+
 <h1>{{ department.name }}</h1>
 
 <h2>Teams</h2>
@@ -19,4 +20,6 @@
 		{% endfor %}
 	</p>
 </div>
+{% empty %}
+<p>No teams</p>
 {% endfor %}

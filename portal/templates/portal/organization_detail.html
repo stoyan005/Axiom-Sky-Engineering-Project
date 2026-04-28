@@ -1,0 +1,14 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/team.css' %}">
+
+<h1>{{ org.name }}</h1>
+
+<h2>Departments</h2>
+
+{% for dept in departments %}
+<p>
+    <a href="/departments/{{ dept.id }}/">{{ dept.name }}</a>
+</p>
+{% empty %}
+<p>No departments</p>
+{% endfor %}

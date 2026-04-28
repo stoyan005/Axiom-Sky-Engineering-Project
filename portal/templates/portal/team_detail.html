@@ -1,11 +1,17 @@
-<h1>{{ team.name }}</h1>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/teams.css' %}">
 
-<p>Department: {{ team.department.name }}</p>
+<div class="team-detail-card">
+    <h1>{{ team.name }}</h1>
+    <p>Department: {{ team.department.name }}</p>
 
-<h3>Dependencies</h3>
+    <h3>Dependencies</h3>
 
-{% for dep in dependencies %}
-<p>Depends on: {{ dep.name }}</p>
-{% empty %}
-<p>No dependencies</p>
-{% endfor %}
+    <div class="dependencies-container">
+        {% for dep in dependencies %}
+            <span class="dependency-item">Depends on: {{ dep.name }}</span>
+        {% empty %}
+            <p class="empty-msg">No dependencies</p>
+        {% endfor %}
+    </div>
+</div>

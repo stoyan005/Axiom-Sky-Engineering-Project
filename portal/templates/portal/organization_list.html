@@ -1,20 +1,31 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'portal/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/team.css' %}">
+
 <h1>Organisation Overview</h1>
 
 <form method="GET">
-	<input type="text" name="q" placeholder="Search teams">
+	<input type="text" name="q" placeholder="Search orgs, teams, departments">
 	<button type="submit">Search</button>
 </form>
 
-<h2>Departments</h2>
+<h2>Organisations</h2>
 
 {% for org in orgs %}
-{% for dept in org.department_set.all %}
+<p>
+	<a href="/organizations/{{ org.id }}/">{{ org.name }}</a>
+</p>
+{% empty %}
+<p>No organisations found</p>
+{% endfor %}
+
+<h2>Departments</h2>
+
+{% for dept in departments %}
 <p>
 	<a href="/departments/{{ dept.id }}/">{{ dept.name }}</a>
 </p>
-{% endfor %}
+{% empty %}
+<p>No departments found</p>
 {% endfor %}
 
 <h2>Teams + Dependencies</h2>
@@ -35,4 +46,6 @@
 		{% endfor %}
 	</p>
 </div>
+{% empty %}
+<p>No teams found</p>
 {% endfor %}

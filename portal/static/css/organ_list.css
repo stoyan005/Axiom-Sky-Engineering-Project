@@ -1,0 +1,118 @@
+:root {
+    --border-color: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-main: #64748b;
+    --bg-light: #f8fafc;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 2rem;
+}
+
+/* --- The Search Bar --- */
+.search-section {
+    margin-bottom: 2rem;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 9999px; /* This creates the perfect pill shape */
+    padding: 4px 16px;
+    width: 100%;
+    max-width: 550px;
+    transition: box-shadow 0.2s ease;
+}
+
+/* Subtle glow when clicking into the search */
+.search-container:focus-within {
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.search-input-group {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.search-input-group input {
+    border: none;
+    outline: none;
+    padding: 10px 12px;
+    font-size: 15px;
+    color: var(--text-main);
+    width: 100%;
+    background: transparent;
+}
+
+.search-input-group input::placeholder {
+    color: #cbd5e1;
+}
+
+/* Icon Styles */
+.icon-search, .icon-filter {
+    width: 20px;
+    height: 20px;
+    fill: var(--text-muted);
+}
+
+.filter-action {
+    display: flex;
+    align-items: center;
+    padding-left: 4px;
+    cursor: pointer;
+}
+
+.search-divider {
+    width: 1px;
+    height: 24px;
+    background-color: var(--border-color);
+    margin: 0 12px;
+}
+
+/* --- Team Card Styles (matching your image) --- */
+.team-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    width: 280px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.team-name {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+    color: #1e293b;
+}
+
+.team-tag {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 4px 0 20px 0;
+}
+
+.section-label {
+    font-size: 14px;
+    color: var(--text-main);
+    margin-bottom: 5px;
+}
+
+.dependency-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+.arrow {
+    color: var(--text-muted);
+    padding: 0 4px;
+}
