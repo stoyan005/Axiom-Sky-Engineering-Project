@@ -88,6 +88,10 @@
 						<a href="#" class="icon-btn" aria-label="Notifications"
 							><i class="bi bi-bell"></i
 						></a>
+						<span class="avatar-chip">
+							{% if user.is_authenticated %} {{ user.username|slice:":1"|upper
+							}} {% else %} S {% endif %}
+						</span>
 						{% if user.is_authenticated %}
 						<form method="post" action="{% url 'logout' %}" style="margin: 0">
 							{% csrf_token %}

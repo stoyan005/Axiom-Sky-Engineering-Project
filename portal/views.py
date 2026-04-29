@@ -1,31 +1,11 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from .models import Team
 
 
-def auth_page(request):
-    return render(request, "portal/auth.html")
-
-
-def signup(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("auth")
-    else:
-        form = UserCreationForm()
-
-    return render(request, "portal/signup.html", {"form": form})
-
-
-@login_required
 def organization_list(request):
     query = request.GET.get("q", "").strip()
     team_id = request.GET.get("team_id")
 
-    # DETAIL VIEW
     if team_id:
         selected_team = (
             Team.objects.select_related("department__organization")
@@ -43,7 +23,6 @@ def organization_list(request):
             },
         )
 
-    # LIST VIEW
     teams = Team.objects.select_related("department__organization")
 
     if query:
