@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-
-from .models import Organization
+from .models import Team
 
 
 def auth_page(request):
@@ -23,32 +21,40 @@ def signup(request):
 
 
 @login_required
-def home(request):
-    orgs = Organization.objects.all()
-    return render(request, "portal/home.html", {"orgs": orgs})
-
-
-@login_required
 def organization_list(request):
     query = request.GET.get("q", "").strip()
+    team_id = request.GET.get("team_id")
 
-    orgs = Organization.objects.prefetch_related(
-        "department_set__team_set__dependencies"
-    )
+    # DETAIL VIEW
+    if team_id:
+        selected_team = (
+            Team.objects.select_related("department__organization")
+            .prefetch_related("dependencies")
+            .get(id=team_id)
+        )
+
+        return render(
+            request,
+            "portal/organization_list.html",
+            {
+                "selected_team": selected_team,
+                "teams": None,
+                "query": query,
+            },
+        )
+
+    # LIST VIEW
+    teams = Team.objects.select_related("department__organization")
 
     if query:
-        orgs = orgs.filter(
-            Q(name__icontains=query)
-            | Q(department__name__icontains=query)
-            | Q(department__team__name__icontains=query)
-            | Q(department__team__dependencies__name__icontains=query)
-        ).distinct()
+        teams = teams.filter(name__icontains=query)
 
     return render(
         request,
         "portal/organization_list.html",
         {
-            "orgs": orgs,
+            "teams": teams,
+            "selected_team": None,
             "query": query,
         },
     )

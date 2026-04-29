@@ -1,74 +1,140 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Teams Organisation</title>
+		<link rel="stylesheet" href="{% static 'css/organ_list.css' %}" />
+	</head>
 
-<head>
-	<meta charset="UTF-8">
-	<title>Organisation Overview</title>
-	<link rel="stylesheet" href="{% static 'css/organ_list.css' %}">
-</head>
+	<body>
+		<div class="sidebar">
+			<div class="logo">sky</div>
 
-<body>
+			<nav class="nav">
+				<a href="#" class="nav-item">
+					<svg viewBox="0 0 24 24" class="icon">
+						<path
+							d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5z"
+							fill="currentColor"
+						/>
+					</svg>
+					Dashboard
+				</a>
 
-	<h1 style="text-align: center; color: #1e293b; margin-top: 20px;">Organisation Overview</h1>
+				<a href="#" class="nav-item">
+					<svg viewBox="0 0 24 24" class="icon">
+						<path
+							d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zM8 11c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05C16.88 13.89 19 15.03 19 16.5V19h5v-2.5C24 14.17 19.33 13 16 13z"
+							fill="currentColor"
+						/>
+					</svg>
+					Teams
+				</a>
 
-	<div class="search-container">
-		<form method="GET" class="search-bar">
-			<input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search teams or departments...">
-			<button type="submit">Search</button>
-		</form>
-	</div>
+				<a href="#" class="nav-item active">
+					<svg viewBox="0 0 24 24" class="icon">
+						<path
+							d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"
+							fill="currentColor"
+						/>
+					</svg>
+					Organisation
+				</a>
 
-	<hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 50px;">
+				<a href="#" class="nav-item">
+					<svg viewBox="0 0 24 24" class="icon">
+						<path
+							d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"
+							fill="currentColor"
+						/>
+					</svg>
+					Messages
+				</a>
 
-	{% for org in orgs %}
-	<div class="org">
+				<a href="#" class="nav-item">
+					<svg viewBox="0 0 24 24" class="icon">
+						<path
+							d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zm12 18H5V10h14v10z"
+							fill="currentColor"
+						/>
+					</svg>
+					Calendar
+				</a>
 
-		<h2 class="org-title">🏢 {{ org.name }}</h2>
+				<a href="#" class="nav-item">
+					<svg viewBox="0 0 24 24" class="icon">
+						<path
+							d="M3 13h2v8H3v-8zm6-6h2v14H9V7zm6 4h2v10h-2V11zm6-8h2v18h-2V3z"
+							fill="currentColor"
+						/>
+					</svg>
+					Performance
+				</a>
+			</nav>
 
-		<div class="tree">
-
-			<div class="level root">
-				<div class="node root-node">{{ org.name }}</div>
-			</div>
-
-			<div class="level departments">
-
-				{% for dept in org.department_set.all %}
-				<div class="branch">
-
-					<div class="node dept-node">📁 {{ dept.name }}</div>
-
-					<div class="children">
-
-						{% for team in dept.team_set.all %}
-						<div class="branch">
-
-							<div class="node team-node">👥 {{ team.name }}</div>
-
-							<div class="children">
-								{% for dep in team.dependencies.all %}
-								<div class="branch">
-									<div class="node dep-node">🔗 {{ dep.name }}</div>
-								</div>
-								{% endfor %}
-							</div>
-
-						</div>
-						{% endfor %}
-
-					</div>
-
-				</div>
-				{% endfor %}
-
-			</div>
-
+			<div class="footer">© Sky 2026</div>
 		</div>
 
-	</div>
-	{% endfor %}
+		<!-- MAIN CONTENT -->
+		<div class="main-content">
+			<div class="page-header">
+				<h1 class="title">Teams Directory</h1>
 
-</body>
+				<form method="GET" class="search-bar">
+					<input
+						type="text"
+						name="q"
+						value="{{ query|default:'' }}"
+						placeholder="Search teams..."
+					/>
+					<button type="submit">Search</button>
+				</form>
+			</div>
 
+			{% if teams %}
+
+			<div class="grid-container">
+				{% for team in teams %}
+
+				<a
+					href="?team_id={{ team.id }}{% if query %}&q={{ query }}{% endif %}"
+					class="team-card"
+				>
+					<div class="team-name">{{ team.name }}</div>
+
+					<div class="team-meta">
+						{{ team.department.name }}<br />
+						{{ team.department.organization.name }}
+					</div>
+				</a>
+
+				{% endfor %}
+			</div>
+
+			{% endif %} {% if selected_team %}
+
+			<div class="detail-box">
+				<a href="{% url 'organization_list' %}" class="back-btn">← Back</a>
+
+				<h2>👥 {{ selected_team.name }}</h2>
+
+				<p><strong>Department:</strong> {{ selected_team.department.name }}</p>
+				<p>
+					<strong>Organization:</strong>
+					{{ selected_team.department.organization.name }}
+				</p>
+
+				<h3>Dependencies</h3>
+
+				{% for dep in selected_team.dependencies.all %}
+				<p>{{ dep.name }}</p>
+				{% empty %}
+				<p>No dependencies</p>
+				{% endfor %}
+			</div>
+
+			{% endif %}
+		</div>
+	</body>
 </html>
